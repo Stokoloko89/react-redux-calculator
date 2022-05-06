@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { numbersAction } from '../store/get-numbers-slice'
 
-const calcButtons = [
+const operatorButtons = [
     {
         id: "percentage",
         symbol: "%",
@@ -19,6 +19,25 @@ const calcButtons = [
         symbol: "/",
     },
     {
+        id: "multiply",
+        symbol: "x",
+    },
+    {
+        id: "subtract",
+        symbol: "-",
+    },
+    {
+        id: "add",
+        symbol: "+",
+    },
+    {
+        id: "comma",
+        symbol: ",",
+    },
+];
+
+const numberButton = [
+    {
         id: "7",
         symbol: 7,
     },
@@ -29,10 +48,6 @@ const calcButtons = [
     {
         id: "9",
         symbol: 9,
-    },
-    {
-        id: "multiply",
-        symbol: "x",
     },
     {
         id: "4",
@@ -47,10 +62,6 @@ const calcButtons = [
         symbol: 6,
     },
     {
-        id: "subtract",
-        symbol: "-",
-    },
-    {
         id: "1",
         symbol: 1,
     },
@@ -63,36 +74,42 @@ const calcButtons = [
         symbol: 3,
     },
     {
-        id: "add",
-        symbol: "+",
-    },
-    {
-        id: "comma",
-        symbol: ",",
-    },
-    {
         id: "0",
         symbol: 0,
     },
-    {
-        id: "evaluate",
-        symbol: "=",
-    },
-];
+]
 
-// let initialValue = 0;
+const evaluateButton = [{
+    id: "evaluate",
+    symbol: "=",
+},]
 
 const Buttons = () => {
-    const initialExpression = useSelector(state => state.concatNumbers)
-    // const removeZero = useSelector(state => state.enteredValues)
+    const enteredExpression = useSelector(state => state.concatNumbers)
+    const previousExpression = useSelector(state => state.previousExpression)
+    const operator = useSelector(state => state.operator)
+
     const dispatch = useDispatch()
 
-    console.log(initialExpression)
+    console.log(enteredExpression)
 
-    const displayedNumbers = initialExpression.map(expression => expression.value)
+    const displayedNumbers = enteredExpression.map(expression => expression.value)
+    const prevExpressionNumbers = previousExpression.map(expression => expression.value)
 
-    const inputValueHandler = (e) => {
+    const numberInputHandler = (e) => {
         dispatch(numbersAction.getNumbers({
+            value: e.target.innerText,
+        }))
+    }
+
+    const operatorInputHandler = (e) => {
+        dispatch(numbersAction.getOperators({
+            value: e.target.innerText,
+        }))
+    }
+
+    const evaluateHandler = (e) => {
+        dispatch(numbersAction.getTotalNumber({
             value: e.target.innerText,
         }))
     }
@@ -103,11 +120,17 @@ const Buttons = () => {
             {/* calculator */}
             <div className="h-fit w-fit border-2 shadow-lg rounded-lg m-4 flex flex-col bg-slate-50">
                 <h1 className="ml-6 mt-3 text-2xl font-mono">Calculator</h1>
-                <div placeholder="0" className="truncate border border-stone-300 mt-7 mx-5 text-4xl rounded-lg px-2 shadow-md w-72 h-14 text-right">{displayedNumbers}</div>
+                <div className="flex flex-col mt-4">
+                    <div placeholder="0" className="box-content flex flex-col text-right truncate border border-stone-300  mx-5 py-2 text-4xl rounded-lg px-2 shadow-md w-72 h-16"><span className='text-2xl'>{prevExpressionNumbers}{operator}</span>{displayedNumbers}</div>
+                </div>
                 <div className="h-3/4 w-5/6 border-blue-500 mx-auto mt-10 grid grid-cols-4 gap-2 mb-10">
-                    {calcButtons.map((button) => (
-                        <button key={button.id} className="text-2xl border-2 rounded-md shadow-sm" onClick={inputValueHandler}>{button.symbol}</button>
+                    {operatorButtons.map((button) => (
+                        <button key={button.id} className="text-2xl border-2 rounded-md shadow-sm" onClick={operatorInputHandler}>{button.symbol}</button>
                     ))}
+                    {numberButton.map((button) => (
+                        <button key={button.id} className="text-2xl border-2 rounded-md shadow-sm" onClick={numberInputHandler}>{button.symbol}</button>
+                    ))}
+                    <button className="text-2xl border-2 rounded-md shadow-sm" onClick={evaluateHandler}>{evaluateButton[0].symbol}</button>
                 </div>
             </div>
         </div>
