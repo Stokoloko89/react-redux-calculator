@@ -23,10 +23,6 @@ const operatorButtons = [
     id: "add",
     symbol: "+",
   },
-  {
-    id: "comma",
-    symbol: ",",
-  },
 ];
 
 const numberButton = [
@@ -67,6 +63,10 @@ const numberButton = [
     symbol: 3,
   },
   {
+    id: "comma",
+    symbol: ".",
+  },
+  {
     id: "0",
     symbol: 0,
   },
@@ -102,10 +102,10 @@ const Buttons = () => {
   const [evaluated, setEvaluated] = useState(false);
   const dispatch = useDispatch();
 
+  console.log(enteredExpression);
   let displayedNumbers = enteredExpression.map((expression) => expression);
   const prevNumbers = previousExpression.map((expression) => expression);
 
-  console.log(displayedNumbers);
   const numberInputHandler = (e) => {
     dispatch(
       numbersAction.getNumbers({
@@ -120,14 +120,11 @@ const Buttons = () => {
         operator: e.target.innerText,
       })
     );
+    setEvaluated(false);
   };
 
   const evaluateHandler = (e) => {
-    dispatch(
-      numbersAction.getTotalNumber({
-        evaluate: e.target.innerText,
-      })
-    );
+    dispatch(numbersAction.getTotalNumber());
     setEvaluated(true);
   };
 
@@ -181,6 +178,12 @@ const Buttons = () => {
               {button.symbol}
             </button>
           ))}
+          <button
+            className="text-2xl border-2 rounded-md shadow-sm"
+            onClick={numberInputHandler}
+          >
+            {numberButton[0].symbol}
+          </button>
           {numberButton.map((button) => (
             <button
               key={button.id}
