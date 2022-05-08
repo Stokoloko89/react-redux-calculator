@@ -64,9 +64,6 @@ const numbersSlice = createSlice({
         case "x":
           state.totalNumber = state.firstValue * state.secondValue;
           break;
-        case "%":
-          state.totalNumber = (state.firstValue / state.secondValue) * 100;
-          break;
         default:
           state.totalNumber = 0;
           break;

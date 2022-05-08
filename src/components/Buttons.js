@@ -4,10 +4,6 @@ import { numbersAction } from "../store/get-numbers-slice";
 
 const operatorButtons = [
   {
-    id: "percentage",
-    symbol: "%",
-  },
-  {
     id: "divide",
     symbol: "/",
   },
@@ -102,7 +98,6 @@ const Buttons = () => {
   const [evaluated, setEvaluated] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(enteredExpression);
   let displayedNumbers = enteredExpression.map((expression) => expression);
   const prevNumbers = previousExpression.map((expression) => expression);
 
@@ -156,7 +151,7 @@ const Buttons = () => {
             {!evaluated ? displayedNumbers : totaledValue}
           </div>
         </div>
-        <div className="h-3/4 w-5/6 border-blue-500 mx-auto mt-10 grid grid-cols-4 gap-2 mb-10">
+        <div className="h-3/4 w-5/6 border-blue-500 mx-auto mt-10 grid grid-cols-3 gap-2 mb-10">
           <button
             className="text-2xl border-2 rounded-md shadow-sm"
             onClick={clearDataHandler}
@@ -178,12 +173,6 @@ const Buttons = () => {
               {button.symbol}
             </button>
           ))}
-          <button
-            className="text-2xl border-2 rounded-md shadow-sm"
-            onClick={numberInputHandler}
-          >
-            {numberButton[0].symbol}
-          </button>
           {numberButton.map((button) => (
             <button
               key={button.id}
