@@ -1,9 +1,15 @@
-import Buttons from "./components/Buttons";
+import Calculator from "./components/Calculator";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 
 const App = () => {
   return (
-    <Buttons></Buttons>
+    <>
+      <Header></Header>
+      <Calculator></Calculator>
+      <Footer></Footer>
+    </>
   );
 }
 
